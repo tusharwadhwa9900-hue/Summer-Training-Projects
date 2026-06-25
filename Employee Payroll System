@@ -1,0 +1,126 @@
+def salary_logger(function):
+
+    def wrapper(*args):
+        salary = function(*args)
+
+        with open("salary_log.txt", "a") as file:
+            file.write("Salary calculated: " + str(salary) + "\n")
+
+        return salary
+
+    return wrapper
+
+
+
+# Base class
+class Employee:
+
+    def __init__(self, name, emp_id):
+        self.name = name
+        self.emp_id = emp_id
+
+    def calculate_salary(self):
+        pass
+
+    def __str__(self):
+        return self.name + " - " + str(self.emp_id)
+
+
+
+# Full Time Employee class
+class FullTimeEmployee(Employee):
+
+    def __init__(self, name, emp_id, monthly_salary):
+        super().__init__(name, emp_id)
+        self.monthly_salary = monthly_salary
+
+
+    @salary_logger
+    def calculate_salary(self):
+        return self.monthly_salary
+
+
+
+# Part Time Employee class
+class PartTimeEmployee(Employee):
+
+    def __init__(self, name, emp_id, hours, rate):
+        super().__init__(name, emp_id)
+        self.hours = hours
+        self.rate = rate
+
+
+    @salary_logger
+    def calculate_salary(self):
+        return self.hours * self.rate
+
+
+
+# Export payroll data to file
+def export_payroll(employee):
+
+    salary = employee.calculate_salary()
+
+    with open("payroll.txt", "a") as file:
+        file.write(
+            str(employee) +
+            " Salary: " +
+            str(salary) +
+            "\n"
+        )
+
+    print("Payroll exported successfully.")
+
+
+
+# Main Program
+
+while True:
+
+    print("\n===== Employee Payroll System =====")
+    print("1. Full Time Employee")
+    print("2. Part Time Employee")
+    print("3. Exit")
+
+
+    choice = input("Enter choice: ")
+
+
+    if choice == "1":
+
+        name = input("Enter employee name: ")
+        emp_id = input("Enter employee ID: ")
+        salary = float(input("Enter monthly salary: "))
+
+        emp = FullTimeEmployee(name, emp_id, salary)
+
+        print("Salary:", emp.calculate_salary())
+
+        export_payroll(emp)
+
+
+
+    elif choice == "2":
+
+        name = input("Enter employee name: ")
+        emp_id = input("Enter employee ID: ")
+        hours = int(input("Enter working hours: "))
+        rate = float(input("Enter hourly rate: "))
+
+        emp = PartTimeEmployee(name, emp_id, hours, rate)
+
+        print("Salary:", emp.calculate_salary())
+
+        export_payroll(emp)
+
+
+
+    elif choice == "3":
+
+        print("Exiting Payroll System...")
+        break
+
+
+    else:
+
+        print("Invalid choice.")
