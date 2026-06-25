@@ -1,0 +1,109 @@
+import csv
+
+file_name = "books.csv"
+
+# Add book function
+def add_book():
+    book_id = input("Enter book ID: ")
+    title = input("Enter book title: ")
+    author = input("Enter author name: ")
+
+    with open(file_name, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([book_id, title, author])
+
+    print("Book added successfully.")
+
+
+# Search book function
+def search_book():
+    search = input("Enter book title to search: ")
+
+    try:
+        with open(file_name, "r") as file:
+            reader = csv.reader(file)
+
+            found = False
+
+            for row in reader:
+                if search.lower() == row[1].lower():
+                    print("Book Found:")
+                    print("ID:", row[0])
+                    print("Title:", row[1])
+                    print("Author:", row[2])
+                    found = True
+
+            if found == False:
+                print("Book not found.")
+
+    except FileNotFoundError:
+        print("File not found.")
+
+
+# Remove book function
+def remove_book():
+    remove = input("Enter book ID to remove: ")
+
+    books = []
+
+    try:
+        with open(file_name, "r") as file:
+            reader = csv.reader(file)
+
+            for row in reader:
+                if row[0] != remove:
+                    books.append(row)
+
+        with open(file_name, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerows(books)
+
+        print("Book removed successfully.")
+
+    except FileNotFoundError:
+        print("File not found.")
+
+
+# Display books function
+def display_books():
+    try:
+        with open(file_name, "r") as file:
+            reader = csv.reader(file)
+
+            print("\nLibrary Books:")
+            for row in reader:
+                print(row[0], "-", row[1], "-", row[2])
+
+    except FileNotFoundError:
+        print("File not found.")
+
+
+# Main menu
+while True:
+    print("\n===== Library Book Management System =====")
+    print("1. Add Book")
+    print("2. Search Book")
+    print("3. Remove Book")
+    print("4. Display Books")
+    print("5. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        add_book()
+
+    elif choice == "2":
+        search_book()
+
+    elif choice == "3":
+        remove_book()
+
+    elif choice == "4":
+        display_books()
+
+    elif choice == "5":
+        print("Exiting Library System...")
+        break
+
+    else:
+        print("Invalid choice.")
