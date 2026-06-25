@@ -1,0 +1,33 @@
+students = {
+    "Ali": 85,
+    "Sara": 92,
+    "Ahmed": 78,
+    "Ayesha": 88
+}
+
+print("===== Student Result Management System =====")
+
+# Display student records
+for name, marks in students.items():
+    print(name, ":", marks)
+
+# Calculate average marks
+average = sum(students.values()) / len(students)
+print("\nAverage Marks:", average)
+
+# Find topper
+topper = max(students, key=students.get)
+print("Topper:", topper, "-", students[topper])
+
+# Display grades using list comprehension
+grades = [
+    f"{name}: A" if marks >= 90 else
+    f"{name}: B" if marks >= 80 else
+    f"{name}: C" if marks >= 70 else
+    f"{name}: F"
+    for name, marks in students.items()
+]
+
+print("\nGrades:")
+for grade in grades:
+    print(grade)
