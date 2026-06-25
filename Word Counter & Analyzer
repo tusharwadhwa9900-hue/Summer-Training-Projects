@@ -1,0 +1,25 @@
+
+print("===== Word Counter & Analyzer =====")
+
+text = input("Enter a paragraph: ")
+
+words = text.split()
+
+word_count = len(words)
+
+longest_word = ""
+for word in words:
+    if len(word) > len(longest_word):
+        longest_word = word
+
+vowel_count = 0
+vowels = "aeiouAEIOU"
+
+for char in text:
+    if char in vowels:
+        vowel_count += 1
+
+print("\nResults:")
+print("Total words:", word_count)
+print("Longest word:", longest_word)
+print("Total vowels:", vowel_count)
