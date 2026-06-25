@@ -1,0 +1,122 @@
+class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+
+    def calculate_grade(self):
+        if self.marks >= 90:
+            return "A"
+        elif self.marks >= 80:
+            return "B"
+        elif self.marks >= 70:
+            return "C"
+        else:
+            return "F"
+
+    def __str__(self):
+        return self.name + "," + str(self.marks) + "," + self.calculate_grade()
+
+
+# Teacher class (Inheritance)
+class Teacher(Student):
+
+    def __init__(self, name, subject):
+        self.name = name
+        self.subject = subject
+
+    # Polymorphism
+    def display(self):
+        return "Teacher: " + self.name + " teaches " + self.subject
+
+    def __str__(self):
+        return self.name + "," + self.subject
+
+
+# Course class
+class Course:
+
+    def __init__(self, course_name):
+        self.course_name = course_name
+
+    def __str__(self):
+        return "Course: " + self.course_name
+
+
+# Save student record to file
+def save_student(student):
+    file = open("students.txt", "a")
+
+    file.write(str(student) + "\n")
+
+    file.close()
+
+    print("Student record saved.")
+
+
+# Read student records
+def read_students():
+    try:
+        file = open("students.txt", "r")
+
+        print("\nStudent Records:")
+
+        for line in file:
+            print(line.strip())
+
+        file.close()
+
+    except FileNotFoundError:
+        print("File not found.")
+
+
+# Main Program
+
+while True:
+
+    print("\n===== Grade Management System =====")
+    print("1. Add Student")
+    print("2. View Students")
+    print("3. Display Teacher")
+    print("4. Display Course")
+    print("5. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+
+        name = input("Enter student name: ")
+        marks = int(input("Enter marks: "))
+
+        student = Student(name, marks)
+
+        save_student(student)
+
+
+    elif choice == "2":
+
+        read_students()
+
+
+    elif choice == "3":
+
+        teacher = Teacher("Mr. John", "Python Programming")
+
+        print(teacher.display())
+
+
+    elif choice == "4":
+
+        course = Course("Computer Science")
+
+        print(course)
+
+
+    elif choice == "5":
+
+        print("Exiting Program...")
+        break
+
+
+    else:
+
+        print("Invalid choice.")
