@@ -1,0 +1,89 @@
+import csv
+
+input_file = "students.csv"
+output_file = "student_results.csv"
+
+
+# Function to calculate grade
+def calculate_grade(marks):
+    if marks >= 90:
+        return "A"
+    elif marks >= 80:
+        return "B"
+    elif marks >= 70:
+        return "C"
+    elif marks >= 60:
+        return "D"
+    else:
+        return "F"
+
+
+# Read CSV and write updated results
+def process_students():
+    try:
+        students = []
+
+        with open(input_file, "r") as file:
+            reader = csv.reader(file)
+
+            for row in reader:
+                name = row[0]
+                marks = int(row[1])
+
+                grade = calculate_grade(marks)
+
+                students.append([name, marks, grade])
+
+
+        with open(output_file, "w", newline="") as file:
+            writer = csv.writer(file)
+
+            writer.writerow(["Name", "Marks", "Grade"])
+
+            writer.writerows(students)
+
+        print("Student results saved successfully.")
+
+    except FileNotFoundError:
+        print("Student file not found.")
+
+    except ValueError:
+        print("Invalid marks data.")
+
+
+# Display results
+def display_results():
+    try:
+        with open(output_file, "r") as file:
+            reader = csv.reader(file)
+
+            print("\nStudent Results:")
+
+            for row in reader:
+                print(row)
+
+    except FileNotFoundError:
+        print("Result file not found.")
+
+
+# Main program
+while True:
+    print("\n===== Student Grade File Manager =====")
+    print("1. Process Student Data")
+    print("2. Display Results")
+    print("3. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        process_students()
+
+    elif choice == "2":
+        display_results()
+
+    elif choice == "3":
+        print("Exiting Program...")
+        break
+
+    else:
+        print("Invalid choice.")
